@@ -1,7 +1,6 @@
 package com.github.rkbalgi.tcpasync;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.jboss.netty.bootstrap.ClientBootstrap;
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBuffers;
@@ -17,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 public class TcpAsync {
 
-    private static final Log log = LogFactory.getLog(TcpAsync.class);
+    private static final Logger log = Logger.getLogger(TcpAsync.class);
 
     private static final ClientBootstrap clientBootstrap = new ClientBootstrap();
     private static ConcurrentHashMap<String, LengthPrefixedTcpMessage> flightMap = new ConcurrentHashMap<String,
@@ -46,7 +45,11 @@ public class TcpAsync {
 
     public static void shutdown() {
         try {
-            timeoutService.shutdownNow();
+            log.info("TcpAysnc shutting down..");
+            timeoutService.shutdown();
+            log.info("TcpAysnc awaiting termination...");
+            timeoutService.awaitTermination(5, TimeUnit.SECONDS);
+            log.info("TcpAysnc awaiting terminated.");
         } catch (Exception e) {
             log.error("shutdown error", e);
         }
@@ -100,7 +103,7 @@ public class TcpAsync {
 
     public static void receivedMsg(ChannelBuffer outBuf) {
 
-        LengthPrefixedTcpMessage responseMsg=new LengthPrefixedTcpMessage(outBuf.array(),false);
+        LengthPrefixedTcpMessage responseMsg = new LengthPrefixedTcpMessage(outBuf.array(), false);
 
         String key = keyExtractor.getResponseKey(responseMsg);
         LengthPrefixedTcpMessage tcpReq = flightMap.remove(key);

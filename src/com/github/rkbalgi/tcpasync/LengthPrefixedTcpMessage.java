@@ -1,5 +1,6 @@
 package com.github.rkbalgi.tcpasync;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -12,15 +13,6 @@ public class LengthPrefixedTcpMessage {
     private ReentrantLock lock = new ReentrantLock();
     private Condition condition = lock.newCondition();
     private String responseCode;
-
-/*    public LengthPrefixedTcpMessage(MLI_TYPE mliType) {
-        this.mliType = mliType;
-    }
-
-    public LengthPrefixedTcpMessage(byte[] requestData) {
-        //this.mliType = mliType;
-        this.requestData=requestData;
-    }*/
 
 
     public LengthPrefixedTcpMessage(byte[] requestData) {
@@ -66,7 +58,9 @@ public class LengthPrefixedTcpMessage {
     void waitForResponse() {
         try {
             lock.lock();
-            condition.awaitUninterruptibly();
+            condition.await(1000, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         } finally {
             lock.unlock();
         }
