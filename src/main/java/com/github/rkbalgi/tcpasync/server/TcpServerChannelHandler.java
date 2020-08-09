@@ -43,6 +43,19 @@ public class TcpServerChannelHandler extends ChannelInboundHandlerAdapter {
     log.debug("Message Received - \n" + ByteBufUtil.hexDump(buf));
 
     try {
+      if (log.isDebugEnabled()) {
+        log.debug(String
+            .format("message received from [%s] = %s", ctx.channel().remoteAddress(),
+                ByteBufUtil.hexDump(buf)));
+      }
+      handler.handleMessage(ctx.channel(), buf);
+    } finally {
+      buf.release();
+    }
+
+
+
+    /*try {
 
       buf.markReaderIndex();
       if (buf.readableBytes() > 2) {
@@ -67,7 +80,7 @@ public class TcpServerChannelHandler extends ChannelInboundHandlerAdapter {
       }
     } finally {
       buf.release();
-    }
+    }*/
 
   }
 

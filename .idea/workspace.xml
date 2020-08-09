@@ -27,11 +27,16 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="922ce082-9360-402b-8d56-49d05e2cb88b" name="Default" comment="Multiple changes to migrate to netty 4x and reorganize project">
+    <list default="true" id="922ce082-9360-402b-8d56-49d05e2cb88b" name="Default" comment="Reorganized structure">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tcpasync.iml" beforeDir="false" afterPath="$PROJECT_DIR$/tcpasync.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/tcpasync/tcpasync.jar" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/tcpasync/tcpasync.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/LengthPrefixedTcpMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/LengthPrefixedTcpMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/client/TcpClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/client/TcpClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/server/TcpEchoHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/server/TcpEchoHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/server/TcpServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/server/TcpServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/server/TcpServerChannelHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/server/TcpServerChannelHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/server/TcpServerMessageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/server/TcpServerMessageHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/TcpClientTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TcpClientTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -345,7 +350,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1430203607275</updated>
-      <workItem from="1596901987214" duration="11611000" />
+      <workItem from="1596901987214" duration="17068000" />
     </task>
     <task id="LOCAL-00001" summary="Multiple changes to migrate to netty 4x and reorganize project">
       <created>1596962481419</created>
@@ -354,7 +359,28 @@
       <option name="project" value="LOCAL" />
       <updated>1596962481419</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Included test for sendSync">
+      <created>1596968486658</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1596968486658</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Reorganized structure">
+      <created>1596969269915</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1596969269915</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Reorganized structure">
+      <created>1596969290696</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1596969290696</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -381,7 +407,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Multiple changes to migrate to netty 4x and reorganize project" />
-    <option name="LAST_COMMIT_MESSAGE" value="Multiple changes to migrate to netty 4x and reorganize project" />
+    <MESSAGE value="Included test for sendSync" />
+    <MESSAGE value="Reorganized structure" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reorganized structure" />
   </component>
   <component name="WindowStateProjectService">
     <state x="440" y="94" key="#Project_Structure" timestamp="1596963182163">
@@ -392,34 +420,34 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596959832327" />
-    <state x="743" y="385" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1596962325566">
+    <state x="743" y="385" width="446" height="268" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1596982054300">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="743" y="385" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596962325566" />
-    <state width="1532" height="273" key="GridCell.Tab.0.bottom" timestamp="1596968070462">
+    <state x="743" y="385" width="446" height="268" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596982054300" />
+    <state width="1531" height="278" key="GridCell.Tab.0.bottom" timestamp="1596981338069">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1532" height="273" key="GridCell.Tab.0.bottom/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596968070462" />
-    <state width="1532" height="273" key="GridCell.Tab.0.center" timestamp="1596968070462">
+    <state width="1531" height="278" key="GridCell.Tab.0.bottom/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596981338069" />
+    <state width="1531" height="278" key="GridCell.Tab.0.center" timestamp="1596981338069">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1532" height="273" key="GridCell.Tab.0.center/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596968070462" />
-    <state width="1532" height="273" key="GridCell.Tab.0.left" timestamp="1596968070462">
+    <state width="1531" height="278" key="GridCell.Tab.0.center/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596981338069" />
+    <state width="1531" height="278" key="GridCell.Tab.0.left" timestamp="1596981338068">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1532" height="273" key="GridCell.Tab.0.left/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596968070462" />
-    <state width="1532" height="273" key="GridCell.Tab.0.right" timestamp="1596968070462">
+    <state width="1531" height="278" key="GridCell.Tab.0.left/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596981338068" />
+    <state width="1531" height="278" key="GridCell.Tab.0.right" timestamp="1596981338069">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1532" height="273" key="GridCell.Tab.0.right/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596968070462" />
+    <state width="1531" height="278" key="GridCell.Tab.0.right/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596981338069" />
     <state x="490" y="175" key="Maven.ArtifactSearchDialog" timestamp="1596962040505">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="490" y="175" key="Maven.ArtifactSearchDialog/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596962040505" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1596962484036">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1596969292548">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596962484036" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596969292548" />
     <state x="731" y="290" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1596961480535">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

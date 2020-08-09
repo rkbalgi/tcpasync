@@ -2,8 +2,10 @@ package com.github.rkbalgi.tcpasync;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+// LengthPrefixedTcpMessage represents a TCP message with a length prefix of 2E or 2I
+// at beginning
 public class LengthPrefixedTcpMessage {
 
   public static final int INVALID = -1;
@@ -11,8 +13,8 @@ public class LengthPrefixedTcpMessage {
   public static final int TIMED_OUT = 1;
 
   private byte[] requestData, responseData;
-  private ReentrantLock lock = new ReentrantLock();
-  private Condition condition = lock.newCondition();
+  private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+  private final Condition condition = lock.writeLock().newCondition();
   private int responseCode = INVALID;
 
 
@@ -32,7 +34,7 @@ public class LengthPrefixedTcpMessage {
     this.requestData = requestData;
   }
 
-  public ReentrantLock getLock() {
+  public ReentrantReadWriteLock getLock() {
     return lock;
   }
 
@@ -41,7 +43,13 @@ public class LengthPrefixedTcpMessage {
   }
 
   public int getResponseCode() {
-    return responseCode;
+
+    try {
+      lock.readLock().lock();
+      return responseCode;
+    } finally {
+      lock.readLock().unlock();
+    }
   }
 
   public void setResponseCode(int responseCode) {
@@ -49,7 +57,14 @@ public class LengthPrefixedTcpMessage {
   }
 
   public byte[] getResponseData() {
-    return responseData;
+
+    try {
+      lock.readLock().lock();
+      return responseData;
+    } finally {
+      lock.readLock().unlock();
+    }
+
   }
 
   public void setResponseData(byte[] responseData) {
@@ -58,33 +73,34 @@ public class LengthPrefixedTcpMessage {
 
   public void waitForResponse() {
     try {
-      lock.lock();
+      lock.writeLock().lock();
       condition.await(1000, TimeUnit.MILLISECONDS);
     } catch (InterruptedException e) {
       e.printStackTrace();
     } finally {
-      lock.unlock();
+      lock.writeLock().unlock();
     }
   }
 
   public void timedOut() {
     setResponseCode(LengthPrefixedTcpMessage.TIMED_OUT);
     try {
-      getLock().lock();
+      getLock().writeLock().lock();
       getCondition().signalAll();
     } finally {
-      getLock().unlock();
+      getLock().writeLock().unlock();
     }
   }
 
   public void receivedResponse(byte[] responseData) {
-    this.responseData = responseData;
-    setResponseCode(LengthPrefixedTcpMessage.OK);
+
     try {
-      getLock().lock();
+      getLock().writeLock().lock();
+      setResponseData(responseData);
+      setResponseCode(LengthPrefixedTcpMessage.OK);
       getCondition().signalAll();
     } finally {
-      getLock().unlock();
+      getLock().writeLock().unlock();
     }
   }
 }

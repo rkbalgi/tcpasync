@@ -8,6 +8,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -29,6 +30,19 @@ public class TcpServer {
         .childHandler(new ChannelInitializer<SocketChannel>() {
           @Override
           public void initChannel(SocketChannel ch) throws Exception {
+            switch (mliType) {
+              case MLI_2E: {
+                ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(999, 0, 2, 0, 2));
+                break;
+              }
+              case MLI_2I: {
+                ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(999, 0, 2, -2, 2));
+                break;
+              }
+              default:
+                throw new IllegalArgumentException(mliType + " is not supported");
+            }
+
             ch.pipeline().addLast(new TcpServerChannelHandler(mliType, handler));
           }
         })

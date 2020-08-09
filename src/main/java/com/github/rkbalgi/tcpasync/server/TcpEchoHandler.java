@@ -11,16 +11,16 @@ import org.apache.log4j.Logger;
  */
 public class TcpEchoHandler implements TcpServerMessageHandler {
 
-    private static final Logger log= Logger.getLogger(TcpEchoHandler.class);
+  private static final Logger log = Logger.getLogger(TcpEchoHandler.class);
 
-    @Override
-    public void handleMessage(Channel channel, byte[] data) {
-        ByteBuf buf = Unpooled.buffer(2 + data.length);
-        buf.writeShort(data.length);//2I
-        buf.writeBytes(data);
-        if(log.isDebugEnabled()){
-            log.debug("Echo Response = \n"+ ByteBufUtil.prettyHexDump(buf));
-        }
-        channel.writeAndFlush(buf);
+  @Override
+  public void handleMessage(Channel channel, ByteBuf data) {
+    ByteBuf buf = Unpooled.buffer(2 + data.readableBytes());
+    buf.writeShort(data.readableBytes());//2E
+    buf.writeBytes(data);
+    if (log.isDebugEnabled()) {
+      log.debug("Echo Response = \n" + ByteBufUtil.prettyHexDump(buf));
     }
+    channel.writeAndFlush(buf);
+  }
 }

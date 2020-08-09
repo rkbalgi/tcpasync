@@ -15,6 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 import org.apache.log4j.Logger;
 
 
@@ -32,8 +33,12 @@ public class TcpClient {
   private static MLI_TYPE mliType;
   private static KeyExtractor keyExtractor;
 
-  //TODO:: provide a constructor to create objects of type TcpClient rather than static
-  // initialization
+  private static final AtomicLong reqCount = new AtomicLong();
+  private static final AtomicLong respCount = new AtomicLong();
+  private static final AtomicLong timedOutCount = new AtomicLong();
+
+  // TODO:: provide a constructor to create objects of type TcpClient rather than static
+  //  initialization
 
   public static void initialize(String host, int port, MLI_TYPE _mliType,
       KeyExtractor keyExtractorImpl) {
@@ -90,7 +95,9 @@ public class TcpClient {
 
       buf.writeShort(prefix);
       buf.writeBytes(tcpReq.getRequestData());
+
       flightMap.put(key, tcpReq);
+
       timeoutService.schedule(() -> {
         LengthPrefixedTcpMessage tcpReq1 = flightMap.remove(key);
         if (tcpReq1 != null) {
@@ -98,7 +105,9 @@ public class TcpClient {
           tcpReq1.timedOut();
         }
 
-      }, 5000, TimeUnit.MILLISECONDS);
+      }, 500, TimeUnit.MILLISECONDS);
+
+      reqCount.incrementAndGet();
 
       channel.writeAndFlush(buf);
       if (sync) {
@@ -112,6 +121,13 @@ public class TcpClient {
 
   }
 
+  public static String snapshot() {
+    return String
+        .format("%s::summary requests: %d, responses: %d, timedOut: %d", TcpClient.class.getName(),
+            reqCount.get(), respCount.get(),
+            timedOutCount.get());
+  }
+
   public static void receivedMsg(ByteBuf outBuf) {
 
     LengthPrefixedTcpMessage responseMsg = new LengthPrefixedTcpMessage(outBuf.array(), false);
@@ -120,7 +136,10 @@ public class TcpClient {
     LOG.debug("Received a response with key = " + key);
     LengthPrefixedTcpMessage tcpReq = flightMap.remove(key);
     if (tcpReq != null) {
+      respCount.incrementAndGet();
       tcpReq.receivedResponse(outBuf.array());
+    } else {
+      timedOutCount.incrementAndGet();
     }
 
   }

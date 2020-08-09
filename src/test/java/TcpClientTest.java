@@ -10,6 +10,7 @@ import com.github.rkbalgi.tcpasync.server.TcpServer;
 import io.netty.buffer.ByteBufUtil;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -47,10 +48,12 @@ class TcpClientTest {
       }
     });
 
-    LengthPrefixedTcpMessage reqMsg = new LengthPrefixedTcpMessage(
-        ByteBufUtil.decodeHexDump("01020304000000007654323456789087"));
-
-    TcpClient.sendSync(reqMsg);
+    LengthPrefixedTcpMessage reqMsg = null;
+    for (int i = 0; i < 5; i++) {
+      reqMsg = new LengthPrefixedTcpMessage(
+          ByteBufUtil.decodeHexDump(String.format("%02d", i) + "020304000000007654323456789087"));
+      TcpClient.sendAsync(reqMsg);
+    }
 
     LocalDateTime now = LocalDateTime.now();
 
@@ -63,6 +66,10 @@ class TcpClientTest {
         }
       }
     }
+
+    Thread.sleep(TimeUnit.SECONDS.toMillis(5));
+
+    System.out.println(TcpClient.snapshot());
     TcpClient.shutdown();
   }
 
