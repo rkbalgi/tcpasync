@@ -27,8 +27,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="922ce082-9360-402b-8d56-49d05e2cb88b" name="Default" comment="Use io.netty.handler.codec.LengthFieldBasedFrameDecoder on the server side">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="922ce082-9360-402b-8d56-49d05e2cb88b" name="Default" comment="Removed classes dir">
+      <change beforePath="$PROJECT_DIR$/.classpath" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.project" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -342,7 +345,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1430203607275</updated>
-      <workItem from="1596901987214" duration="17224000" />
+      <workItem from="1596901987214" duration="17487000" />
     </task>
     <task id="LOCAL-00001" summary="Multiple changes to migrate to netty 4x and reorganize project">
       <created>1596962481419</created>
@@ -379,7 +382,14 @@
       <option name="project" value="LOCAL" />
       <updated>1596982187973</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Removed classes dir">
+      <created>1596982291030</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1596982291030</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -409,7 +419,8 @@
     <MESSAGE value="Included test for sendSync" />
     <MESSAGE value="Reorganized structure" />
     <MESSAGE value="Use io.netty.handler.codec.LengthFieldBasedFrameDecoder on the server side" />
-    <option name="LAST_COMMIT_MESSAGE" value="Use io.netty.handler.codec.LengthFieldBasedFrameDecoder on the server side" />
+    <MESSAGE value="Removed classes dir" />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed classes dir" />
   </component>
   <component name="WindowStateProjectService">
     <state x="440" y="94" key="#Project_Structure" timestamp="1596963182163">
@@ -444,10 +455,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="490" y="175" key="Maven.ArtifactSearchDialog/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596962040505" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1596982205478">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1596982294188">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596982205478" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596982294188" />
     <state x="731" y="290" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1596961480535">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
