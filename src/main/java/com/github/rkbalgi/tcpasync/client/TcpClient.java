@@ -1,15 +1,17 @@
 package com.github.rkbalgi.tcpasync.client;
 
 import com.github.rkbalgi.tcpasync.KeyExtractor;
-import com.github.rkbalgi.tcpasync.LengthPrefixedTcpMessage;
+import com.github.rkbalgi.tcpasync.TcpMessage;
 import com.github.rkbalgi.tcpasync.MLI_TYPE;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import java.net.InetSocketAddress;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -24,8 +26,8 @@ public class TcpClient {
   private static final Logger LOG = Logger.getLogger(TcpClient.class);
 
   private static final Bootstrap bootstrap = new Bootstrap();
-  private static final ConcurrentHashMap<String, LengthPrefixedTcpMessage> flightMap = new ConcurrentHashMap<String,
-      LengthPrefixedTcpMessage>();
+  private static final ConcurrentHashMap<String, TcpMessage> flightMap = new ConcurrentHashMap<String,
+      TcpMessage>();
   private static final ScheduledExecutorService timeoutService = Executors
       .newScheduledThreadPool(2);
 
@@ -48,7 +50,25 @@ public class TcpClient {
 
     bootstrap.group(new NioEventLoopGroup());
     bootstrap.channelFactory(NioSocketChannel::new);
-    bootstrap.handler(new LengthPrefixedTcpChannelInboundHandler(mliType));
+    bootstrap.handler(new ChannelInitializer<>() {
+      @Override
+      protected void initChannel(Channel ch) throws Exception {
+        switch (mliType) {
+          case MLI_2E: {
+            ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(999, 0, 2, 0, 2));
+            break;
+          }
+          case MLI_2I: {
+            ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(999, 0, 2, -2, 2));
+            break;
+          }
+          default:
+            throw new IllegalArgumentException(mliType + " is not supported");
+        }
+
+        ch.pipeline().addLast(new TcpClientChannelInboundHandler());
+      }
+    });
 
     ChannelFuture future = bootstrap.connect(new InetSocketAddress(host, port));
     future.awaitUninterruptibly(2, TimeUnit.SECONDS);
@@ -73,16 +93,16 @@ public class TcpClient {
   }
 
   // sends the request to the server and waits for the response
-  public static void sendSync(final LengthPrefixedTcpMessage tcpReq) {
+  public static void sendSync(final TcpMessage tcpReq) {
     send(tcpReq, true);
   }
 
   // sends the request to the server and waits for the response
-  public static void sendAsync(final LengthPrefixedTcpMessage tcpReq) {
+  public static void sendAsync(final TcpMessage tcpReq) {
     send(tcpReq, false);
   }
 
-  private static void send(final LengthPrefixedTcpMessage tcpReq, boolean sync) {
+  private static void send(final TcpMessage tcpReq, boolean sync) {
     try {
       final String key = keyExtractor.getRequestKey(tcpReq);
       ByteBuf buf = Unpooled.buffer(2 + tcpReq
@@ -99,7 +119,7 @@ public class TcpClient {
       flightMap.put(key, tcpReq);
 
       timeoutService.schedule(() -> {
-        LengthPrefixedTcpMessage tcpReq1 = flightMap.remove(key);
+        TcpMessage tcpReq1 = flightMap.remove(key);
         if (tcpReq1 != null) {
           LOG.warn(String.format("Request = (%s) timed out.", key));
           tcpReq1.timedOut();
@@ -130,11 +150,11 @@ public class TcpClient {
 
   public static void receivedMsg(ByteBuf outBuf) {
 
-    LengthPrefixedTcpMessage responseMsg = new LengthPrefixedTcpMessage(outBuf.array(), false);
+    TcpMessage responseMsg = new TcpMessage(outBuf.array(), false);
 
     String key = keyExtractor.getResponseKey(responseMsg);
     LOG.debug("Received a response with key = " + key);
-    LengthPrefixedTcpMessage tcpReq = flightMap.remove(key);
+    TcpMessage tcpReq = flightMap.remove(key);
     if (tcpReq != null) {
       respCount.incrementAndGet();
       tcpReq.receivedResponse(outBuf.array());

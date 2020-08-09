@@ -7,6 +7,10 @@ import io.netty.channel.Channel;
 import org.apache.log4j.Logger;
 
 /**
+ *
+ * TcpEchoHandler is a sample demo handler that simply echoes back the data received
+ * from the client with a 2E MLI {@link com.github.rkbalgi.tcpasync.MLI_TYPE}
+ *
  * Created by Raghavendra Balgi on 08-05-2015.
  */
 public class TcpEchoHandler implements TcpServerMessageHandler {

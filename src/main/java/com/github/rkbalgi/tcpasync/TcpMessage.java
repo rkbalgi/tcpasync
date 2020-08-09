@@ -4,9 +4,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-// LengthPrefixedTcpMessage represents a TCP message with a length prefix of 2E or 2I
-// at beginning
-public class LengthPrefixedTcpMessage {
+/**
+ * A TcpMessage represents a TCP message (raw []byte) that is exchanged between a TCP client and a
+ * server. The TcpMessage is usually prepended with a message length indicator (or MLI) to demarcate
+ * a message from a subsequent one on a TCP stream.
+ */
+public class TcpMessage {
 
   public static final int INVALID = -1;
   public static final int OK = 0;
@@ -18,11 +21,11 @@ public class LengthPrefixedTcpMessage {
   private int responseCode = INVALID;
 
 
-  public LengthPrefixedTcpMessage(byte[] requestData) {
+  public TcpMessage(byte[] requestData) {
     this.requestData = requestData;
   }
 
-  public LengthPrefixedTcpMessage(byte[] responseData, boolean b) {
+  public TcpMessage(byte[] responseData, boolean b) {
     this.responseData = responseData;
   }
 
@@ -83,7 +86,7 @@ public class LengthPrefixedTcpMessage {
   }
 
   public void timedOut() {
-    setResponseCode(LengthPrefixedTcpMessage.TIMED_OUT);
+    setResponseCode(TcpMessage.TIMED_OUT);
     try {
       getLock().writeLock().lock();
       getCondition().signalAll();
@@ -97,7 +100,7 @@ public class LengthPrefixedTcpMessage {
     try {
       getLock().writeLock().lock();
       setResponseData(responseData);
-      setResponseCode(LengthPrefixedTcpMessage.OK);
+      setResponseCode(TcpMessage.OK);
       getCondition().signalAll();
     } finally {
       getLock().writeLock().unlock();

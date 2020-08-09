@@ -27,11 +27,15 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="922ce082-9360-402b-8d56-49d05e2cb88b" name="Default" comment="Removed classes dir">
-      <change beforePath="$PROJECT_DIR$/.classpath" beforeDir="false" />
+    <list default="true" id="922ce082-9360-402b-8d56-49d05e2cb88b" name="Default" comment="Removed Eclipse based project files">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.project" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/KeyExtractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/KeyExtractor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/LengthPrefixedTcpMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/TcpMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/MLI_TYPE.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/MLI_TYPE.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/client/LengthPrefixedTcpChannelInboundHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/client/TcpClientChannelInboundHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/client/TcpClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/client/TcpClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/server/TcpEchoHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/server/TcpEchoHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/TcpClientTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TcpClientTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,8 +102,6 @@
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="MemberChooser.sorted" value="false" />
-    <property name="OverrideImplement.combined" value="true" />
-    <property name="OverrideImplement.overriding.sorted" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
@@ -345,7 +347,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1430203607275</updated>
-      <workItem from="1596901987214" duration="17487000" />
+      <workItem from="1596901987214" duration="20068000" />
     </task>
     <task id="LOCAL-00001" summary="Multiple changes to migrate to netty 4x and reorganize project">
       <created>1596962481419</created>
@@ -389,7 +391,14 @@
       <option name="project" value="LOCAL" />
       <updated>1596982291030</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Removed Eclipse based project files">
+      <created>1596982543794</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1596982543794</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -420,45 +429,46 @@
     <MESSAGE value="Reorganized structure" />
     <MESSAGE value="Use io.netty.handler.codec.LengthFieldBasedFrameDecoder on the server side" />
     <MESSAGE value="Removed classes dir" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed classes dir" />
+    <MESSAGE value="Removed Eclipse based project files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed Eclipse based project files" />
   </component>
   <component name="WindowStateProjectService">
     <state x="440" y="94" key="#Project_Structure" timestamp="1596963182163">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="440" y="94" key="#Project_Structure/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596963182163" />
-    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser" timestamp="1596959832327">
+    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser" timestamp="1597001147410">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596959832327" />
+    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1597001147410" />
     <state x="743" y="385" width="446" height="268" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1596982054300">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="743" y="385" width="446" height="268" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596982054300" />
-    <state width="1531" height="278" key="GridCell.Tab.0.bottom" timestamp="1596982069437">
+    <state width="1531" height="391" key="GridCell.Tab.0.bottom" timestamp="1597001429067">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1531" height="278" key="GridCell.Tab.0.bottom/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596982069437" />
-    <state width="1531" height="278" key="GridCell.Tab.0.center" timestamp="1596982069436">
+    <state width="1531" height="391" key="GridCell.Tab.0.bottom/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1597001429067" />
+    <state width="1531" height="391" key="GridCell.Tab.0.center" timestamp="1597001429066">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1531" height="278" key="GridCell.Tab.0.center/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596982069436" />
-    <state width="1531" height="278" key="GridCell.Tab.0.left" timestamp="1596982069436">
+    <state width="1531" height="391" key="GridCell.Tab.0.center/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1597001429066" />
+    <state width="1531" height="391" key="GridCell.Tab.0.left" timestamp="1597001429066">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1531" height="278" key="GridCell.Tab.0.left/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596982069436" />
-    <state width="1531" height="278" key="GridCell.Tab.0.right" timestamp="1596982069437">
+    <state width="1531" height="391" key="GridCell.Tab.0.left/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1597001429066" />
+    <state width="1531" height="391" key="GridCell.Tab.0.right" timestamp="1597001429066">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1531" height="278" key="GridCell.Tab.0.right/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596982069437" />
+    <state width="1531" height="391" key="GridCell.Tab.0.right/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1597001429066" />
     <state x="490" y="175" key="Maven.ArtifactSearchDialog" timestamp="1596962040505">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="490" y="175" key="Maven.ArtifactSearchDialog/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596962040505" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1596982294188">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1596982547850">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596982294188" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596982547850" />
     <state x="731" y="290" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1596961480535">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -471,6 +481,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="766" y="364" key="git4idea.ui.GitTagDialog/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596958550096" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1597001524580">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1597001524580" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />

@@ -10,6 +10,6 @@ public interface KeyExtractor {
      * message. In ISO8583 for example, the STAN has to be extracted and returned.
      */
 
-    public String getRequestKey(LengthPrefixedTcpMessage requestMsg);
-    public String getResponseKey(LengthPrefixedTcpMessage responseMsg);
+    public String getRequestKey(TcpMessage requestMsg);
+    public String getResponseKey(TcpMessage responseMsg);
 }
