@@ -1,8 +1,11 @@
 package com.github.rkbalgi.tcpasync.client;
 
+import com.codahale.metrics.Histogram;
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.Snapshot;
 import com.github.rkbalgi.tcpasync.KeyExtractor;
-import com.github.rkbalgi.tcpasync.TcpMessage;
 import com.github.rkbalgi.tcpasync.MLI_TYPE;
+import com.github.rkbalgi.tcpasync.TcpMessage;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -29,7 +32,7 @@ public class TcpClient {
   private static final ConcurrentHashMap<String, TcpMessage> flightMap = new ConcurrentHashMap<String,
       TcpMessage>();
   private static final ScheduledExecutorService timeoutService = Executors
-      .newScheduledThreadPool(2);
+      .newScheduledThreadPool(1);
 
   private static volatile Channel channel = null;
   private static MLI_TYPE mliType;
@@ -41,6 +44,16 @@ public class TcpClient {
 
   // TODO:: provide a constructor to create objects of type TcpClient rather than static
   //  initialization
+
+  private static MetricRegistry metrics;
+  private static Histogram responseTimeMetric;
+  private static final ScheduledExecutorService scheduledExec = Executors.newScheduledThreadPool(2);
+
+  static {
+    metrics = new MetricRegistry();
+    responseTimeMetric = metrics.histogram("responseTime");
+  }
+
 
   public static void initialize(String host, int port, MLI_TYPE _mliType,
       KeyExtractor keyExtractorImpl) {
@@ -73,6 +86,18 @@ public class TcpClient {
     ChannelFuture future = bootstrap.connect(new InetSocketAddress(host, port));
     future.awaitUninterruptibly(2, TimeUnit.SECONDS);
     channel = future.channel();
+
+    scheduledExec.scheduleWithFixedDelay(() -> {
+      System.out.println(snapshot());
+      Snapshot metricSnapshot = responseTimeMetric.getSnapshot();
+      System.out
+          .printf("metrics: min: %d max: %d mean: %f 75th: %f 95th: %f\n", metricSnapshot.getMin(),
+              metricSnapshot.getMax(), metricSnapshot.getMean(), metricSnapshot.get75thPercentile(),
+              metricSnapshot.get95thPercentile());
+
+    }, 30, 30, TimeUnit.SECONDS);
+
+
   }
 
   public static void shutdown() {
@@ -97,7 +122,7 @@ public class TcpClient {
     send(tcpReq, true);
   }
 
-  // sends the request to the server and waits for the response
+  // sends the request to the server withuout waiting for a response
   public static void sendAsync(final TcpMessage tcpReq) {
     send(tcpReq, false);
   }
@@ -105,8 +130,7 @@ public class TcpClient {
   private static void send(final TcpMessage tcpReq, boolean sync) {
     try {
       final String key = keyExtractor.getRequestKey(tcpReq);
-      ByteBuf buf = Unpooled.buffer(2 + tcpReq
-          .getRequestData().length);
+      ByteBuf buf = Unpooled.buffer(2 + tcpReq.getRequestData().length);
 
       short prefix = (short) tcpReq.getRequestData().length;
       if (mliType == MLI_TYPE.MLI_2I) {
@@ -116,8 +140,11 @@ public class TcpClient {
       buf.writeShort(prefix);
       buf.writeBytes(tcpReq.getRequestData());
 
-      flightMap.put(key, tcpReq);
+      reqCount.incrementAndGet();
+      tcpReq.setReqTime(System.nanoTime());
+      channel.writeAndFlush(buf);
 
+      flightMap.put(key, tcpReq);
       timeoutService.schedule(() -> {
         TcpMessage tcpReq1 = flightMap.remove(key);
         if (tcpReq1 != null) {
@@ -125,11 +152,8 @@ public class TcpClient {
           tcpReq1.timedOut();
         }
 
-      }, 500, TimeUnit.MILLISECONDS);
+      }, 5000, TimeUnit.MILLISECONDS);
 
-      reqCount.incrementAndGet();
-
-      channel.writeAndFlush(buf);
       if (sync) {
         tcpReq.waitForResponse();
       }
@@ -144,8 +168,7 @@ public class TcpClient {
   public static String snapshot() {
     return String
         .format("%s::summary requests: %d, responses: %d, timedOut: %d", TcpClient.class.getName(),
-            reqCount.get(), respCount.get(),
-            timedOutCount.get());
+            reqCount.get(), respCount.get(), timedOutCount.get());
   }
 
   public static void receivedMsg(ByteBuf outBuf) {
@@ -153,9 +176,14 @@ public class TcpClient {
     TcpMessage responseMsg = new TcpMessage(outBuf.array(), false);
 
     String key = keyExtractor.getResponseKey(responseMsg);
-    LOG.debug("Received a response with key = " + key);
+    //LOG.debug("Received a response with key = " + key);
     TcpMessage tcpReq = flightMap.remove(key);
+
     if (tcpReq != null) {
+      long totalTime = TimeUnit.MILLISECONDS
+          .convert(System.nanoTime() - tcpReq.getReqTime(), TimeUnit.NANOSECONDS);
+      responseTimeMetric.update(totalTime);
+      //LOG.debug("Received a response with key = " + totalTime);
       respCount.incrementAndGet();
       tcpReq.receivedResponse(outBuf.array());
     } else {

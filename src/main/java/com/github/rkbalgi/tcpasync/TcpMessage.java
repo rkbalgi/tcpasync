@@ -20,6 +20,8 @@ public class TcpMessage {
   private final Condition condition = lock.writeLock().newCondition();
   private int responseCode = INVALID;
 
+  private long reqTime, respTime;
+
 
   public TcpMessage(byte[] requestData) {
     this.requestData = requestData;
@@ -105,5 +107,21 @@ public class TcpMessage {
     } finally {
       getLock().writeLock().unlock();
     }
+  }
+
+  public long getReqTime() {
+    return reqTime;
+  }
+
+  public void setReqTime(long reqTime) {
+    this.reqTime = reqTime;
+  }
+
+  public long getRespTime() {
+    return respTime;
+  }
+
+  public void setRespTime(long respTime) {
+    this.respTime = respTime;
   }
 }

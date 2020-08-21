@@ -16,7 +16,9 @@ import java.util.Arrays;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -37,23 +39,64 @@ class TcpClientTest {
 
 
   @Test
+  @Disabled
+  @DisplayName("Test with 5 transactions to actual server")
+  public void test5() throws InterruptedException {
+
+    //
+    TcpClient.initialize("localhost", 6666, MLI_TYPE.MLI_2E, new KeyExtractor() {
+      @Override
+      public String getRequestKey(TcpMessage requestMsg) {
+        return new String(Arrays.copyOfRange(requestMsg.getRequestData(), 60, 60 + 6));
+      }
+
+      @Override
+      public String getResponseKey(TcpMessage responseMsg) {
+        return new String(Arrays.copyOfRange(responseMsg.getResponseData(), 52, 52 + 6));
+      }
+    });
+
+    long t1 = System.nanoTime();
+
+    byte[] reqData = ByteBufUtil.decodeHexDump(
+        "31343230f02420000000000080000001000000000000000100000000313231323334353637383931303130303430303030303030303030303031393937373935383132323034f8f4f03132333435363738");
+    TcpMessage reqMsg = null;
+    int stan = 1;
+
+    for (int i = 0; i < 5; i++) {
+
+      System.arraycopy(String.format("%06d", stan).getBytes(), 0, reqData, 60, 6);
+      reqMsg = new TcpMessage(reqData);
+      if (stan == 999999) {
+        stan = 1;
+      }
+      stan++;
+      TcpClient.sendAsync(reqMsg);
+    }
+    System.out.printf("Duration: %d ms.\n", TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - t1));
+
+    Thread.sleep(Duration.ofSeconds(20).toMillis());
+
+  }
+
+
+  @Test
+  @Disabled
+  @DisplayName("Eternal test with actual server")
   public void testWithRustServer() throws InterruptedException {
 
     //
     TcpClient.initialize("localhost", 6666, MLI_TYPE.MLI_2E, new KeyExtractor() {
       @Override
       public String getRequestKey(TcpMessage requestMsg) {
-        return ByteBufUtil.hexDump(Arrays.copyOfRange(requestMsg.getRequestData(), 0, 4));
+        return new String(Arrays.copyOfRange(requestMsg.getRequestData(), 60, 60 + 6));
       }
 
       @Override
       public String getResponseKey(TcpMessage responseMsg) {
-        return ByteBufUtil.hexDump(Arrays.copyOfRange(responseMsg.getResponseData(), 0, 4));
+        return new String(Arrays.copyOfRange(responseMsg.getResponseData(), 52, 52 + 6));
       }
     });
-
-    MetricRegistry metrics = new MetricRegistry();
-    Histogram responseTimeMetric = metrics.histogram("responseTime");
 
     RateLimiterConfig rlConfig = RateLimiterConfig.custom()
         .limitRefreshPeriod(Duration.ofSeconds(1)).limitForPeriod(5).build();
@@ -62,12 +105,16 @@ class TcpClientTest {
     ForkJoinPool.commonPool().execute(() -> {
 
       try {
-        Thread.sleep(TimeUnit.SECONDS.toMillis(2));
+        Thread.sleep(TimeUnit.SECONDS.toMillis(3));
         rl.changeLimitForPeriod(10);
-        Thread.sleep(TimeUnit.SECONDS.toMillis(2));
+        Thread.sleep(TimeUnit.SECONDS.toMillis(3));
         rl.changeLimitForPeriod(20);
-        Thread.sleep(TimeUnit.SECONDS.toMillis(2));
+        Thread.sleep(TimeUnit.SECONDS.toMillis(3));
         rl.changeLimitForPeriod(50);
+        Thread.sleep(TimeUnit.SECONDS.toMillis(5));
+        rl.changeLimitForPeriod(80);
+        Thread.sleep(TimeUnit.SECONDS.toMillis(10));
+        rl.changeLimitForPeriod(100);
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
@@ -76,24 +123,25 @@ class TcpClientTest {
 
     long t1 = System.nanoTime();
 
+    byte[] reqData = ByteBufUtil.decodeHexDump(
+        "31343230f02420000000000080000001000000000000000100000000313231323334353637383931303130303430303030303030303030303031393937373935383132323034f8f4f03132333435363738");
     TcpMessage reqMsg = null;
+    int stan = 1;
 
     while (true) {
-      reqMsg = new TcpMessage(
-          ByteBufUtil.decodeHexDump(
-              "31343230f02420000000000080000001000000000000000100000000313231323334353637383931303130303430303030303030303030303031393937373935383132323034f8f4f03132333435363738"));
+
+      System.arraycopy(String.format("%06d", stan).getBytes(), 0, reqData, 60, 6);
+      reqMsg = new TcpMessage(reqData);
+      if (stan == 999999) {
+        stan = 1;
+      }
+      stan++;
+
       if (rl.acquirePermission()) {
-        TcpClient.sendAsync(reqMsg);
+        TcpClient.sendSync(reqMsg);
       }
 
-      /*if (i < 2000) {
-        Thread.sleep(10);
-      } else {
-        Thread.sleep(100);
-      }*/
     }
-    //System.out.printf("Duration: %d ms.\n", TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - t1));
-
   }
 
   @Test
@@ -106,12 +154,12 @@ class TcpClientTest {
     TcpClient.initialize("localhost", PORT, MLI_TYPE.MLI_2E, new KeyExtractor() {
       @Override
       public String getRequestKey(TcpMessage requestMsg) {
-        return ByteBufUtil.hexDump(Arrays.copyOfRange(requestMsg.getRequestData(), 0, 4));
+        return new String(Arrays.copyOfRange(requestMsg.getRequestData(), 0, 4));
       }
 
       @Override
       public String getResponseKey(TcpMessage responseMsg) {
-        return ByteBufUtil.hexDump(Arrays.copyOfRange(responseMsg.getResponseData(), 0, 4));
+        return new String(Arrays.copyOfRange(responseMsg.getResponseData(), 0, 4));
       }
     });
 
