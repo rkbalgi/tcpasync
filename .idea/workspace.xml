@@ -27,9 +27,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="922ce082-9360-402b-8d56-49d05e2cb88b" name="Default" comment="initial work for response time metrics using dropwizard">
+    <list default="true" id="922ce082-9360-402b-8d56-49d05e2cb88b" name="Default" comment="WIP - using resilience4j for constant rate">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/AsyncHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/TcpMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/TcpMessage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/client/TcpClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/client/TcpClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/client/TcpClientChannelInboundHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/rkbalgi/tcpasync/client/TcpClientChannelInboundHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/TcpClientTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TcpClientTest.java" afterDir="false" />
@@ -49,8 +49,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="JUnit5 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -121,24 +121,25 @@
     <key name="CreateTestDialog.RecentsKey">
       <recent name="com.github.rkbalgi.tcpasync" />
     </key>
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.github.rkbalgi.tcpasync" />
+      <recent name="com.github.rkbalgi.tcpasync.server" />
+      <recent name="com.github.rkbalgi.iso8583" />
+    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
       <recent name="com.github.rkbalgi.iso8583" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\132968\git\tcpasync\src\com\github\rkbalgi\iso8583" />
       <recent name="C:\Users\132968\git\tcpasync\src" />
       <recent name="C:\Users\132968\git\tcpasync\extras\lib" />
     </key>
-    <key name="CreateTestDialog.Recents.Supers">
-      <recent name="" />
-    </key>
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.github.rkbalgi.tcpasync.server" />
-      <recent name="com.github.rkbalgi.iso8583" />
-    </key>
   </component>
-  <component name="RunManager" selected="JUnit.TcpClientTest.test5">
+  <component name="RunManager" selected="JUnit.TcpClientTest.testWithRustServer">
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
       <option name="ACTIVITY_CLASS" value="" />
@@ -213,20 +214,6 @@
       <module name="" />
       <method />
     </configuration>
-    <configuration name="TcpServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.github.rkbalgi.tcpasync.server.TcpServer" />
-      <module name="tcpasync" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.github.rkbalgi.tcpasync.server.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="Test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="com.github.rkbalgi.iso8583.Test" />
       <module name="tcpasync" />
@@ -273,6 +260,17 @@
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="TcpClientTest" />
       <option name="METHOD_NAME" value="test5" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TcpClientTest.testAsyncWithHandler" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="tcpasync" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TcpClientTest" />
+      <option name="METHOD_NAME" value="testAsyncWithHandler" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <method v="2">
@@ -334,19 +332,19 @@
     </configuration>
     <list>
       <item itemvalue="Application.Test" />
-      <item itemvalue="Application.TcpServer" />
       <item itemvalue="JUnit.TcpClientTest.testClient" />
       <item itemvalue="JUnit.TcpClientTest.testWithRustServer" />
       <item itemvalue="JUnit.TcpClientTest.test5" />
       <item itemvalue="JUnit.TcpClientTest" />
+      <item itemvalue="JUnit.TcpClientTest.testAsyncWithHandler" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.TcpClientTest.test5" />
-        <item itemvalue="JUnit.TcpClientTest" />
         <item itemvalue="JUnit.TcpClientTest.testWithRustServer" />
+        <item itemvalue="JUnit.TcpClientTest.test5" />
+        <item itemvalue="JUnit.TcpClientTest.testAsyncWithHandler" />
+        <item itemvalue="JUnit.TcpClientTest" />
         <item itemvalue="JUnit.TcpClientTest.testClient" />
-        <item itemvalue="Application.TcpServer" />
       </list>
     </recent_temporary>
   </component>
@@ -364,7 +362,7 @@
       <workItem from="1596901987214" duration="21714000" />
       <workItem from="1597169816446" duration="1413000" />
       <workItem from="1597929277000" duration="10468000" />
-      <workItem from="1598015788596" duration="13803000" />
+      <workItem from="1598015788596" duration="20439000" />
     </task>
     <task id="LOCAL-00001" summary="Multiple changes to migrate to netty 4x and reorganize project">
       <created>1596962481419</created>
@@ -429,7 +427,14 @@
       <option name="project" value="LOCAL" />
       <updated>1597943974426</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="WIP - using resilience4j for constant rate">
+      <created>1598035344900</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1598035344900</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -464,7 +469,8 @@
     <MESSAGE value="Removed Eclipse based project files" />
     <MESSAGE value="More cleanup and refactoring" />
     <MESSAGE value="initial work for response time metrics using dropwizard" />
-    <option name="LAST_COMMIT_MESSAGE" value="initial work for response time metrics using dropwizard" />
+    <MESSAGE value="WIP - using resilience4j for constant rate" />
+    <option name="LAST_COMMIT_MESSAGE" value="WIP - using resilience4j for constant rate" />
   </component>
   <component name="WindowStateProjectService">
     <state x="440" y="94" key="#Project_Structure" timestamp="1596963182163">
@@ -483,31 +489,31 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="743" y="385" width="446" height="268" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596982054300" />
-    <state width="1528" height="68" key="GridCell.Tab.0.bottom" timestamp="1598035042443">
+    <state width="1524" height="452" key="GridCell.Tab.0.bottom" timestamp="1598085375554">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1528" height="68" key="GridCell.Tab.0.bottom/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1598035042443" />
+    <state width="1524" height="452" key="GridCell.Tab.0.bottom/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1598085375554" />
     <state width="1530" height="391" key="GridCell.Tab.0.bottom/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1597170428393" />
     <state width="1216" height="48" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1598015764396" />
     <state width="1529" height="192" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1597942479532" />
-    <state width="1528" height="68" key="GridCell.Tab.0.center" timestamp="1598035042443">
+    <state width="1524" height="452" key="GridCell.Tab.0.center" timestamp="1598085375554">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1528" height="68" key="GridCell.Tab.0.center/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1598035042443" />
+    <state width="1524" height="452" key="GridCell.Tab.0.center/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1598085375554" />
     <state width="1530" height="391" key="GridCell.Tab.0.center/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1597170428393" />
     <state width="1216" height="48" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1598015764396" />
     <state width="1529" height="192" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1597942479532" />
-    <state width="1528" height="68" key="GridCell.Tab.0.left" timestamp="1598035042443">
+    <state width="1524" height="452" key="GridCell.Tab.0.left" timestamp="1598085375553">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1528" height="68" key="GridCell.Tab.0.left/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1598035042443" />
+    <state width="1524" height="452" key="GridCell.Tab.0.left/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1598085375553" />
     <state width="1530" height="391" key="GridCell.Tab.0.left/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1597170428393" />
     <state width="1216" height="48" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1598015764396" />
     <state width="1529" height="192" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1597942479532" />
-    <state width="1528" height="68" key="GridCell.Tab.0.right" timestamp="1598035042443">
+    <state width="1524" height="452" key="GridCell.Tab.0.right" timestamp="1598085375554">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1528" height="68" key="GridCell.Tab.0.right/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1598035042443" />
+    <state width="1524" height="452" key="GridCell.Tab.0.right/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1598085375554" />
     <state width="1530" height="391" key="GridCell.Tab.0.right/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1597170428393" />
     <state width="1216" height="48" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1598015764396" />
     <state width="1529" height="192" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1597942479532" />
@@ -519,9 +525,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="254" height="198" key="ShowFilterAction_Filter_Popup/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1598026259051" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1597943978268">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1598035347086">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1598035347086" />
     <state x="552" y="253" key="Vcs.Push.Dialog.v2/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1597001935221" />
     <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1597943978268" />
     <state x="731" y="290" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1596961480535">

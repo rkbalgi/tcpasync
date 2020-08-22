@@ -13,8 +13,11 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalUnit;
 import java.util.Arrays;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeAll;
@@ -34,6 +37,41 @@ class TcpClientTest {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
+
+  }
+
+  @Test
+  @Disabled
+  @DisplayName("Test async request execution with handler")
+  public void testAsyncWithHandler() throws InterruptedException {
+
+    //
+    TcpClient.initialize("localhost", 6666, MLI_TYPE.MLI_2E, new KeyExtractor() {
+      @Override
+      public String getRequestKey(TcpMessage requestMsg) {
+        return new String(Arrays.copyOfRange(requestMsg.getRequestData(), 60, 60 + 6));
+      }
+
+      @Override
+      public String getResponseKey(TcpMessage responseMsg) {
+        return new String(Arrays.copyOfRange(responseMsg.getResponseData(), 52, 52 + 6));
+      }
+    });
+
+    byte[] reqData = ByteBufUtil.decodeHexDump(
+        "31343230f02420000000000080000001000000000000000100000000313231323334353637383931303130303430303030303030303030303031393937373935383132323034f8f4f03132333435363738");
+
+    TcpMessage reqMsg = new TcpMessage(reqData);
+    TcpClient.sendAsync(reqMsg, (req, response) -> {
+
+      if (response != null) {
+        System.out.println("Received - " + ByteBufUtil.hexDump(response));
+      } else {
+        Assert.fail("Request possibly timed out");
+      }
+    });
+
+    Thread.sleep(Duration.ofSeconds(20).toMillis());
 
   }
 
@@ -71,7 +109,7 @@ class TcpClientTest {
         stan = 1;
       }
       stan++;
-      TcpClient.sendAsync(reqMsg);
+      TcpClient.sendAsync(reqMsg, null);
     }
     System.out.printf("Duration: %d ms.\n", TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - t1));
 
@@ -82,7 +120,7 @@ class TcpClientTest {
 
   @Test
   @Disabled
-  @DisplayName("Eternal test with actual server")
+  @DisplayName("Eternal Async Test with Rust ISO server")
   public void testWithRustServer() throws InterruptedException {
 
     //
@@ -138,7 +176,7 @@ class TcpClientTest {
       stan++;
 
       if (rl.acquirePermission()) {
-        TcpClient.sendSync(reqMsg);
+        TcpClient.sendAsync(reqMsg, null);
       }
 
     }

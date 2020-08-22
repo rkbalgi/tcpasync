@@ -26,6 +26,7 @@ public class TcpClientChannelInboundHandler extends ChannelInboundHandlerAdapter
   public void channelRead(ChannelHandlerContext ctx, Object obj) {
 
     ByteBuf buf = (ByteBuf) obj;
+
     ByteBuf outBuf = Unpooled.buffer(buf.readableBytes());
     buf.readBytes(outBuf);
     buf.release();

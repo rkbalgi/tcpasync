@@ -3,6 +3,7 @@ package com.github.rkbalgi.tcpasync.client;
 import com.codahale.metrics.Histogram;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Snapshot;
+import com.github.rkbalgi.tcpasync.AsyncHandler;
 import com.github.rkbalgi.tcpasync.KeyExtractor;
 import com.github.rkbalgi.tcpasync.MLI_TYPE;
 import com.github.rkbalgi.tcpasync.TcpMessage;
@@ -12,6 +13,7 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.DefaultEventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
@@ -122,8 +124,14 @@ public class TcpClient {
     send(tcpReq, true);
   }
 
-  // sends the request to the server withuout waiting for a response
-  public static void sendAsync(final TcpMessage tcpReq) {
+  private static final ConcurrentHashMap<TcpMessage, AsyncHandler> handlerMap = new ConcurrentHashMap<>();
+
+  // sends the request to the server without waiting for a response, and then executes
+  // the handler when a response arrives
+  public static void sendAsync(final TcpMessage tcpReq, final AsyncHandler handler) {
+    if (handler != null) {
+      handlerMap.put(tcpReq, handler);
+    }
     send(tcpReq, false);
   }
 
@@ -150,6 +158,13 @@ public class TcpClient {
         if (tcpReq1 != null) {
           LOG.warn(String.format("Request = (%s) timed out.", key));
           tcpReq1.timedOut();
+
+          //if this was a async request, called the handler (if there was one)
+          AsyncHandler handler = handlerMap.remove(tcpReq1);
+          if (handler != null) {
+            handler.accept(tcpReq1, null);
+          }
+
         }
 
       }, 5000, TimeUnit.MILLISECONDS);
@@ -186,6 +201,12 @@ public class TcpClient {
       //LOG.debug("Received a response with key = " + totalTime);
       respCount.incrementAndGet();
       tcpReq.receivedResponse(outBuf.array());
+
+      //if this was a async request, called the handler (if there was one)
+      AsyncHandler handler = handlerMap.remove(tcpReq);
+      if (handler != null) {
+        handler.accept(tcpReq, outBuf);
+      }
     } else {
       timedOutCount.incrementAndGet();
     }
