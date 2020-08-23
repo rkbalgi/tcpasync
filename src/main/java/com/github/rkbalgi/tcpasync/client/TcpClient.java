@@ -73,18 +73,22 @@ public class TcpClient {
     bootstrap.option(ChannelOption.WRITE_BUFFER_WATER_MARK,
         new WriteBufferWaterMark(8 * 1024, 32 * 1024));
 
-    bootstrap.handler(new ChannelInitializer<>() {
+    bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
+    bootstrap.option(ChannelOption.AUTO_READ, true);
+
+    bootstrap.handler(new ChannelInitializer<Channel>() {
       @Override
       protected void initChannel(Channel ch) throws Exception {
 
         //ch.pipeline().addLast(new LoggingHandler());
+        //ch.pipeline().addLast(new TestHandler());
         switch (mliType) {
           case MLI_2E: {
-            ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(999, 0, 2, 0, 2));
+            ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(1024, 0, 2, 0, 2));
             break;
           }
           case MLI_2I: {
-            ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(999, 0, 2, -2, 2));
+            ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(1024, 0, 2, -2, 2));
             break;
           }
           default:
@@ -162,7 +166,16 @@ public class TcpClient {
 
       reqCount.incrementAndGet();
       tcpReq.setReqTime(System.nanoTime());
-      channel.writeAndFlush(buf);
+
+      if (sync) {
+        channel.writeAndFlush(buf).sync();
+      } else {
+        channel.writeAndFlush(buf).addListener((res) -> {
+          if (!res.isSuccess()) {
+            LOG.error("writeAndFlush ERROR", res.cause());
+          }
+        });
+      }
 
       flightMap.put(key, tcpReq);
       timeoutService.schedule(() -> {
@@ -171,7 +184,7 @@ public class TcpClient {
           LOG.warn(String.format("Request = (%s) timed out.", key));
           tcpReq1.timedOut();
 
-          //if this was a async request, called the handler (if there was one)
+          //if this was a async request, call the handler (if there was one)
           AsyncHandler handler = handlerMap.remove(tcpReq1);
           if (handler != null) {
             handler.accept(tcpReq1, null);
@@ -187,7 +200,6 @@ public class TcpClient {
 
     } catch (Exception e) {
       LOG.error("unexpected exception", e);
-      e.printStackTrace();
     }
 
   }
@@ -201,9 +213,8 @@ public class TcpClient {
   public static void receivedMsg(ByteBuf outBuf) {
 
     TcpMessage responseMsg = new TcpMessage(outBuf.array(), false);
-
     String key = keyExtractor.getResponseKey(responseMsg);
-    //LOG.debug("Received a response with key = " + key);
+
     TcpMessage tcpReq = flightMap.remove(key);
 
     if (tcpReq != null) {
@@ -211,7 +222,7 @@ public class TcpClient {
       long totalTime = TimeUnit.MILLISECONDS
           .convert(tcpReq.getRespTime() - tcpReq.getReqTime(), TimeUnit.NANOSECONDS);
       responseTimeMetric.update(totalTime);
-      LOG.debug("Received a response with key = " + key + ": " + totalTime);
+      LOG.trace("Received a response with key = " + key + ", totalTime (ms) = " + totalTime);
       respCount.incrementAndGet();
       tcpReq.receivedResponse(outBuf.array());
 
@@ -221,7 +232,7 @@ public class TcpClient {
         handler.accept(tcpReq, outBuf);
       }
     } else {
-      LOG.debug("Late response = " + key);
+      LOG.info("Late response: key = " + key);
       timedOutCount.incrementAndGet();
     }
 

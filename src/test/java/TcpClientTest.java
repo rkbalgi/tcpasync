@@ -101,7 +101,7 @@ class TcpClientTest {
     TcpMessage reqMsg = null;
     int stan = 1;
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 500; i++) {
 
       // replace the stan in the template message - A stan uniquely identifies a message
       System.arraycopy(String.format("%06d", stan).getBytes(), 0, reqData, 60, 6);
@@ -110,15 +110,11 @@ class TcpClientTest {
         stan = 1;
       }
       stan++;
-      TcpClient.sendAsync(reqMsg, null);
-
-      //Thread.sleep(Duration.ofMillis(100).toMillis());
-      //TcpClient.sendAsync(reqMsg, (req, responseData) -> {
-      //  System.out.println("Received .." + ByteBufUtil.hexDump(responseData));
-      //});
+      //TcpClient.sendAsync(reqMsg, null);
+      TcpClient.sendSync(reqMsg);
     }
-    System.out.printf("Duration: %d ms.\n", TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - t1));
 
+    System.out.printf("Duration: %d ms.\n", TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - t1));
     Thread.sleep(Duration.ofSeconds(2000).toMillis());
 
   }

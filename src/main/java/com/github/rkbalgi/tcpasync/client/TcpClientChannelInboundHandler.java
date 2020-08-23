@@ -5,8 +5,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+import io.netty.channel.SimpleChannelInboundHandler;
 import org.apache.log4j.Logger;
 
 
@@ -18,10 +17,6 @@ public class TcpClientChannelInboundHandler extends ChannelInboundHandlerAdapter
   public TcpClientChannelInboundHandler() {
   }
 
-  @Override
-  public void channelActive(ChannelHandlerContext ctx) {
-    ctx.fireChannelActive();
-  }
 
   public void channelRead(ChannelHandlerContext ctx, Object obj) {
 
@@ -30,12 +25,11 @@ public class TcpClientChannelInboundHandler extends ChannelInboundHandlerAdapter
     ByteBuf outBuf = Unpooled.buffer(buf.readableBytes());
     buf.readBytes(outBuf);
     buf.release();
-
     TcpClient.receivedMsg(outBuf);
-
-
   }
 
+
+  @Override
   public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
     LOG.error("Exception while handling incoming response: ", cause);
   }

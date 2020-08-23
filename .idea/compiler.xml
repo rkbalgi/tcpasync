@@ -20,7 +20,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="tcpasync" target="14" />
+      <module name="tcpasync" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
