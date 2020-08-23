@@ -10,13 +10,17 @@ import com.github.rkbalgi.tcpasync.TcpMessage;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.AdaptiveRecvByteBufAllocator;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.DefaultEventLoopGroup;
+import io.netty.channel.WriteBufferWaterMark;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
+import io.netty.handler.logging.LoggingHandler;
 import java.net.InetSocketAddress;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -65,9 +69,15 @@ public class TcpClient {
 
     bootstrap.group(new NioEventLoopGroup());
     bootstrap.channelFactory(NioSocketChannel::new);
+
+    bootstrap.option(ChannelOption.WRITE_BUFFER_WATER_MARK,
+        new WriteBufferWaterMark(8 * 1024, 32 * 1024));
+
     bootstrap.handler(new ChannelInitializer<>() {
       @Override
       protected void initChannel(Channel ch) throws Exception {
+
+        //ch.pipeline().addLast(new LoggingHandler());
         switch (mliType) {
           case MLI_2E: {
             ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(999, 0, 2, 0, 2));
@@ -82,6 +92,8 @@ public class TcpClient {
         }
 
         ch.pipeline().addLast(new TcpClientChannelInboundHandler());
+
+
       }
     });
 
@@ -195,19 +207,21 @@ public class TcpClient {
     TcpMessage tcpReq = flightMap.remove(key);
 
     if (tcpReq != null) {
+      tcpReq.setRespTime(System.nanoTime());
       long totalTime = TimeUnit.MILLISECONDS
-          .convert(System.nanoTime() - tcpReq.getReqTime(), TimeUnit.NANOSECONDS);
+          .convert(tcpReq.getRespTime() - tcpReq.getReqTime(), TimeUnit.NANOSECONDS);
       responseTimeMetric.update(totalTime);
-      //LOG.debug("Received a response with key = " + totalTime);
+      LOG.debug("Received a response with key = " + key + ": " + totalTime);
       respCount.incrementAndGet();
       tcpReq.receivedResponse(outBuf.array());
 
-      //if this was a async request, called the handler (if there was one)
+      //if this was a async request, call the handler (if there is one)
       AsyncHandler handler = handlerMap.remove(tcpReq);
       if (handler != null) {
         handler.accept(tcpReq, outBuf);
       }
     } else {
+      LOG.debug("Late response = " + key);
       timedOutCount.incrementAndGet();
     }
 

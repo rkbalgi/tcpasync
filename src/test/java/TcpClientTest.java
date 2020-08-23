@@ -79,7 +79,7 @@ class TcpClientTest {
   @Test
   @Disabled
   @DisplayName("Test with 5 transactions to actual server")
-  public void test5() throws InterruptedException {
+  public void test10Async() throws InterruptedException {
 
     //
     TcpClient.initialize("localhost", 6666, MLI_TYPE.MLI_2E, new KeyExtractor() {
@@ -101,8 +101,9 @@ class TcpClientTest {
     TcpMessage reqMsg = null;
     int stan = 1;
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 10; i++) {
 
+      // replace the stan in the template message - A stan uniquely identifies a message
       System.arraycopy(String.format("%06d", stan).getBytes(), 0, reqData, 60, 6);
       reqMsg = new TcpMessage(reqData);
       if (stan == 999999) {
@@ -110,10 +111,15 @@ class TcpClientTest {
       }
       stan++;
       TcpClient.sendAsync(reqMsg, null);
+
+      //Thread.sleep(Duration.ofMillis(100).toMillis());
+      //TcpClient.sendAsync(reqMsg, (req, responseData) -> {
+      //  System.out.println("Received .." + ByteBufUtil.hexDump(responseData));
+      //});
     }
     System.out.printf("Duration: %d ms.\n", TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - t1));
 
-    Thread.sleep(Duration.ofSeconds(20).toMillis());
+    Thread.sleep(Duration.ofSeconds(2000).toMillis());
 
   }
 
@@ -176,7 +182,8 @@ class TcpClientTest {
       stan++;
 
       if (rl.acquirePermission()) {
-        TcpClient.sendAsync(reqMsg, null);
+        //TcpClient.sendAsync(reqMsg, null);
+        TcpClient.sendSync(reqMsg);
       }
 
     }

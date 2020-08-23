@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 public class TcpClientChannelInboundHandler extends ChannelInboundHandlerAdapter {
 
   private static final Logger LOG = Logger.getLogger(TcpServerChannelHandler.class);
-  private static final Executor taskExec = Executors.newCachedThreadPool();
+  //private static final Executor taskExec = Executors.newCachedThreadPool();
 
   public TcpClientChannelInboundHandler() {
   }
@@ -31,14 +31,7 @@ public class TcpClientChannelInboundHandler extends ChannelInboundHandlerAdapter
     buf.readBytes(outBuf);
     buf.release();
 
-    taskExec.execute(() -> {
-      try {
-        TcpClient.receivedMsg(outBuf);
-      } finally {
-        outBuf.release();
-      }
-
-    });
+    TcpClient.receivedMsg(outBuf);
 
 
   }
