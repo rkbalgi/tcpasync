@@ -2,3 +2,19 @@ language: java
 branches:
   only:
     - master
+
+cache:
+  directories:
+    - "$HOME/.m2/repository"
+
+deploy:
+  # Deploy releases to bintray
+  - provider: bintray
+    skip_cleanup: true
+    file: bintray.json
+    user: rkbalgi
+    key: $BINTRAY_API_KEY
+    on: # only deploy when
+      repo: rkbalgi/tcptester
+      branch: master
+

@@ -5,6 +5,7 @@
   <groupId>tcptester</groupId>
   <artifactId>tcptester</artifactId>
   <version>0.1.0</version>
+  <url>https://github.com/rkbalgi/tcptester</url>
   <build>
     <plugins>
       <plugin>

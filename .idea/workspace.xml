@@ -27,10 +27,12 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="922ce082-9360-402b-8d56-49d05e2cb88b" name="Default" comment="Minor refactoring">
-      <change afterPath="$PROJECT_DIR$/.travis.yml" afterDir="false" />
+    <list default="true" id="922ce082-9360-402b-8d56-49d05e2cb88b" name="Default" comment="Changes to support building via Travis CI">
+      <change afterPath="$PROJECT_DIR$/bintray.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.travis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.travis.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ThroughputClientTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ThroughputClientTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -366,7 +368,7 @@
       <workItem from="1598015788596" duration="36430000" />
       <workItem from="1598175950093" duration="30573000" />
       <workItem from="1598278178048" duration="869000" />
-      <workItem from="1598283507968" duration="352000" />
+      <workItem from="1598283507968" duration="2183000" />
     </task>
     <task id="LOCAL-00001" summary="Multiple changes to migrate to netty 4x and reorganize project">
       <created>1596962481419</created>
@@ -473,7 +475,14 @@
       <option name="project" value="LOCAL" />
       <updated>1598275569202</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Changes to support building via Travis CI">
+      <created>1598283889973</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1598283889973</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -514,7 +523,8 @@
     <MESSAGE value="Minor cleanup" />
     <MESSAGE value="Initial implementation of ThroughputClient" />
     <MESSAGE value="Minor refactoring" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor refactoring" />
+    <MESSAGE value="Changes to support building via Travis CI" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changes to support building via Travis CI" />
   </component>
   <component name="WindowStateProjectService">
     <state x="352" y="0" key="#Project_Structure" timestamp="1598175913758">
@@ -595,10 +605,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="254" height="198" key="ShowFilterAction_Filter_Popup/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1598026259051" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1598275570875">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1598283909395">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1598275570875" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1598283909395" />
     <state x="552" y="253" key="Vcs.Push.Dialog.v2/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1597001935221" />
     <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1597943978268" />
     <state x="731" y="290" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1596961480535">

@@ -8,12 +8,14 @@ import io.netty.buffer.ByteBufUtil;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class ThroughputClientTest {
 
 
   @Test
+  @Disabled
   public void testThroughputClient() {
 
     // The builder is used by the ThroughputClient to generate messages
