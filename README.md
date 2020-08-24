@@ -1,14 +1,18 @@
 # tcptester
 A Java framework to work with length prefixed (2I/2E etc) TCP messages. 
 
-* Check Test `TcpClientTest.testClient` for sample usage
-* For a typical use case see this - http://raghablog.blogspot.com/2015/04/tcpasync-load-testing-tcp-messages.html
+Use this library to build your own load test client or simply use TcpClient within another tool like JMeter
+
+* Uses netty as the networking framework
+* Uses resilience4j to drive constant throughput
+* Uses dropwizard to report metrics
+
 
 ## ThroughputClient
 The Throughput client allows to use TcpClient to be used to deliver a fixed (or varying) load on a TCP endpoint
  
 ### Example Usage 
-
+(Adapted from ThroughputClientTest)
 ```java
   public static void main(String[] args) {
 
@@ -72,4 +76,24 @@ The Throughput client allows to use TcpClient to be used to deliver a fixed (or 
     tpClient.start();
     
   }
+```
+### Sample Response
+```
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+2020-08-24 18:47:51,076 INFO  main throughput.ThroughputClient - Initializing TcpClient .. Connecting to localhost:6666 using mli-type: MLI_2E
+2020-08-24 18:47:51,347 INFO  main client.TcpClient - TcpClient connected to server localhost/127.0.0.1:6666, localAddress: /127.0.0.1:51333
+2020-08-24 18:47:51,349 INFO  main throughput.ThroughputClient - Starting ThroughputClient using request rate of 10 reqs/sec
+2020-08-24 18:48:21,363 INFO  pool-2-thread-1 client.TcpClient - Metrics: #requests 310, #responses 310, #timeouts 0 -- Response Times: #min(ms) 0, #max(ms) 24, #mean(ms) 0.723214, #75th 2.000000, #95th 2.000000
+2020-08-24 18:48:51,367 INFO  pool-2-thread-1 client.TcpClient - Metrics: #requests 610, #responses 610, #timeouts 0 -- Response Times: #min(ms) 0, #max(ms) 36, #mean(ms) 0.815090, #75th 2.000000, #95th 2.000000
+2020-08-24 18:49:21,379 INFO  pool-2-thread-1 client.TcpClient - Metrics: #requests 910, #responses 910, #timeouts 0 -- Response Times: #min(ms) 0, #max(ms) 36, #mean(ms) 0.825953, #75th 1.000000, #95th 2.000000
+2020-08-24 18:49:51,395 INFO  pool-2-thread-1 client.TcpClient - Metrics: #requests 1210, #responses 1210, #timeouts 0 -- Response Times: #min(ms) 0, #max(ms) 36, #mean(ms) 0.858629, #75th 1.000000, #95th 2.000000
+2020-08-24 18:50:21,397 INFO  pool-2-thread-1 client.TcpClient - Metrics: #requests 1510, #responses 1510, #timeouts 0 -- Response Times: #min(ms) 0, #max(ms) 36, #mean(ms) 0.674490, #75th 1.000000, #95th 2.000000
+2020-08-24 18:50:51,128 INFO  Thread-1 throughput.ThroughputClient - changing request rate (tps) to - 20
+2020-08-24 18:50:51,401 INFO  pool-2-thread-1 client.TcpClient - Metrics: #requests 1810, #responses 1810, #timeouts 0 -- Response Times: #min(ms) 0, #max(ms) 36, #mean(ms) 0.507858, #75th 1.000000, #95th 2.000000
+2020-08-24 18:51:18,087 INFO  nioEventLoopGroup-2-1 client.TcpClient - Late response: key = 002337
+2020-08-24 18:51:18,602 WARN  pool-1-thread-1 client.TcpClient - Request = (002337) timed out.
+2020-08-24 18:51:21,415 INFO  pool-2-thread-1 client.TcpClient - Metrics: #requests 2410, #responses 2409, #timeouts 1 -- Response Times: #min(ms) 0, #max(ms) 4, #mean(ms) 0.367025, #75th 1.000000, #95th 1.000000
+2020-08-24 18:51:51,426 INFO  pool-2-thread-1 client.TcpClient - Metrics: #requests 3010, #responses 3009, #timeouts 1 -- Response Times: #min(ms) 0, #max(ms) 4, #mean(ms) 0.423035, #75th 1.000000, #95th 1.000000
 ```

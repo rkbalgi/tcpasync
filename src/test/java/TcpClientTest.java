@@ -36,7 +36,7 @@ class TcpClientTest {
   @Test
   @Disabled
   @DisplayName("Test async request execution with handler")
-  public void testAsyncWithHandler() throws InterruptedException {
+  public void testAsyncWithHandler() throws Exception {
 
     //
     TcpClient.initialize("localhost", 6666, MLI_TYPE.MLI_2E, new KeyExtractor() {
@@ -72,7 +72,7 @@ class TcpClientTest {
   @Test
   @Disabled
   @DisplayName("Test with 5 transactions to actual server")
-  public void test10Async() throws InterruptedException {
+  public void test10Async() throws Exception {
 
     //
     TcpClient.initialize("localhost", 6666, MLI_TYPE.MLI_2E, new KeyExtractor() {
@@ -116,7 +116,7 @@ class TcpClientTest {
   @Test
   @Disabled
   @DisplayName("Eternal Async Test with Rust ISO server")
-  public void testWithRustServer() throws InterruptedException {
+  public void testWithRustServer() throws Exception {
 
     //
     TcpClient.initialize("localhost", 6666, MLI_TYPE.MLI_2E, new KeyExtractor() {
@@ -180,7 +180,7 @@ class TcpClientTest {
 
   @Test
   @DisplayName("Test for TCP Client with Echo Server")
-  public void testClient() throws InterruptedException {
+  public void testClient() throws Exception {
 
     //let the server initialize
     Thread.sleep(5 * 1000);

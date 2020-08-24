@@ -59,7 +59,7 @@ public class TcpClient {
 
 
   public static void initialize(String host, int port, MLI_TYPE _mliType,
-      KeyExtractor keyExtractorImpl) {
+      KeyExtractor keyExtractorImpl) throws Exception {
 
     mliType = _mliType;
     keyExtractor = keyExtractorImpl;
@@ -99,16 +99,22 @@ public class TcpClient {
     });
 
     ChannelFuture future = bootstrap.connect(new InetSocketAddress(host, port));
-    future.awaitUninterruptibly(2, TimeUnit.SECONDS);
+    future.sync();
+
     channel = future.channel();
+    LOG.info(
+        String.format("TcpClient connected to server %s, localAddress: %s", channel.remoteAddress(),
+            channel.localAddress()));
 
     scheduledExec.scheduleWithFixedDelay(() -> {
-      System.out.println(snapshot());
+
       Snapshot metricSnapshot = responseTimeMetric.getSnapshot();
-      System.out
-          .printf("metrics: min: %d max: %d mean: %f 75th: %f 95th: %f\n", metricSnapshot.getMin(),
+      LOG.info(
+          String.format(
+              "Metrics: #requests %d, #responses %d, #timeouts %d -- Response Times: #min(ms) %d, #max(ms) %d, #mean(ms) %f, #75th %f, #95th %f",
+              reqCount.get(), respCount.get(), timedOutCount.get(), metricSnapshot.getMin(),
               metricSnapshot.getMax(), metricSnapshot.getMean(), metricSnapshot.get75thPercentile(),
-              metricSnapshot.get95thPercentile());
+              metricSnapshot.get95thPercentile()));
 
     }, 30, 30, TimeUnit.SECONDS);
 

@@ -136,7 +136,7 @@ public class ThroughputClient {
     new Thread(() -> {
       while (true) {
         if (throughput != rl.getRateLimiterConfig().getLimitForPeriod()) {
-          LOG.info("Changing request rate (tps) to - " + throughput);
+          LOG.info("changing request rate (tps) to - " + throughput);
           rl.changeLimitForPeriod(throughput);
         }
         try {
@@ -147,9 +147,13 @@ public class ThroughputClient {
       }
     }).start();
 
-    TcpClient.initialize(host, port, mliType, keyExtractor);
-
     try {
+      LOG.info(String
+          .format("Initializing TcpClient .. Connecting to %s:%d using mli-type: %s", host, port,
+              mliType));
+      TcpClient.initialize(host, port, mliType, keyExtractor);
+      LOG.info(
+          String.format("Starting ThroughputClient using request rate of %d reqs/sec", throughput));
       while (true) {
 
         TcpMessage reqMsg = messageBuilder.newMessage();
@@ -159,7 +163,7 @@ public class ThroughputClient {
 
       }//end while
     } catch (Exception e) {
-      LOG.error("Exception while sending message", e);
+      LOG.error("Error", e);
     }
 
   }
