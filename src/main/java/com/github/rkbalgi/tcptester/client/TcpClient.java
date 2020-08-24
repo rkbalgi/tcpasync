@@ -1,26 +1,23 @@
-package com.github.rkbalgi.tcpasync.client;
+package com.github.rkbalgi.tcptester.client;
 
 import com.codahale.metrics.Histogram;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Snapshot;
-import com.github.rkbalgi.tcpasync.AsyncHandler;
-import com.github.rkbalgi.tcpasync.KeyExtractor;
-import com.github.rkbalgi.tcpasync.MLI_TYPE;
-import com.github.rkbalgi.tcpasync.TcpMessage;
+import com.github.rkbalgi.tcptester.AsyncHandler;
+import com.github.rkbalgi.tcptester.KeyExtractor;
+import com.github.rkbalgi.tcptester.MLI_TYPE;
+import com.github.rkbalgi.tcptester.TcpMessage;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import io.netty.channel.AdaptiveRecvByteBufAllocator;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
-import io.netty.channel.DefaultEventLoopGroup;
 import io.netty.channel.WriteBufferWaterMark;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
-import io.netty.handler.logging.LoggingHandler;
 import java.net.InetSocketAddress;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -192,7 +189,7 @@ public class TcpClient {
 
         }
 
-      }, 5000, TimeUnit.MILLISECONDS);
+      }, 500, TimeUnit.MILLISECONDS);
 
       if (sync) {
         tcpReq.waitForResponse();

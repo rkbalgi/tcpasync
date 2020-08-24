@@ -1,12 +1,6 @@
-package com.github.rkbalgi.tcpasync.client;
+package com.github.rkbalgi.tcptester.client;
 
-import com.github.rkbalgi.tcpasync.server.TcpServerChannelHandler;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.ChannelDuplexHandler;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.channel.ChannelPromise;
 import org.apache.log4j.Logger;
 
 public class TestHandler extends ChannelDuplexHandler {

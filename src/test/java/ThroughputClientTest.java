@@ -1,16 +1,20 @@
-# tcpasync
-A Java framework to work with length prefixed (2I/2E etc) TCP messages. 
+import com.github.rkbalgi.tcptester.KeyExtractor;
+import com.github.rkbalgi.tcptester.MLI_TYPE;
+import com.github.rkbalgi.tcptester.MessageBuilder;
+import com.github.rkbalgi.tcptester.TcpMessage;
+import com.github.rkbalgi.tcptester.throughput.ThroughputClient;
+import com.github.rkbalgi.tcptester.throughput.ThroughputClient.Builder;
+import io.netty.buffer.ByteBufUtil;
+import java.time.Duration;
+import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
+import org.junit.jupiter.api.Test;
 
-* Check Test `TcpClientTest.testClient` for sample usage
-* For a typical use case see this - http://raghablog.blogspot.com/2015/04/tcpasync-load-testing-tcp-messages.html
+public class ThroughputClientTest {
 
-## ThroughputClient
-The Throughput client allows to use TcpClient to be used to deliver a fixed (or varying) load on a TCP endpoint
- 
-### Example Usage 
 
-```java
-  public static void main(String[] args) {
+  @Test
+  public void testThroughputClient() {
 
     // The builder is used by the ThroughputClient to generate messages
     MessageBuilder builder = new MessageBuilder() {
@@ -70,6 +74,9 @@ The Throughput client allows to use TcpClient to be used to deliver a fixed (or 
     }).start();
 
     tpClient.start();
-    
+
+
   }
-```
+
+
+}

@@ -1,4 +1,4 @@
-package com.github.rkbalgi.tcpasync;
+package com.github.rkbalgi.tcptester;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;

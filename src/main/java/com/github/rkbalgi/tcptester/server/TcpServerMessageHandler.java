@@ -1,4 +1,4 @@
-package com.github.rkbalgi.tcpasync.server;
+package com.github.rkbalgi.tcptester.server;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;

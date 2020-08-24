@@ -1,6 +1,6 @@
-package com.github.rkbalgi.tcpasync.server;
+package com.github.rkbalgi.tcptester.server;
 
-import com.github.rkbalgi.tcpasync.MLI_TYPE;
+import com.github.rkbalgi.tcptester.MLI_TYPE;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -9,9 +9,6 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
-import java.net.InetSocketAddress;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 /**
  * Created by Raghavendra Balgi on 08-05-2015.

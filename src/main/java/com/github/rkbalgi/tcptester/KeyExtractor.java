@@ -1,4 +1,4 @@
-package com.github.rkbalgi.tcpasync;
+package com.github.rkbalgi.tcptester;
 
 /**
  * Created by Raghavendra Balgi on 27-04-2015.

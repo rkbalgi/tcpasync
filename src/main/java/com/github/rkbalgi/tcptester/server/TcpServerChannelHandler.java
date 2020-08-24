@@ -1,6 +1,6 @@
-package com.github.rkbalgi.tcpasync.server;
+package com.github.rkbalgi.tcptester.server;
 
-import com.github.rkbalgi.tcpasync.MLI_TYPE;
+import com.github.rkbalgi.tcptester.MLI_TYPE;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.ChannelHandlerContext;

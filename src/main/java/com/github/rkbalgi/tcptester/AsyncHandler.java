@@ -1,7 +1,6 @@
-package com.github.rkbalgi.tcpasync;
+package com.github.rkbalgi.tcptester;
 
 import io.netty.buffer.ByteBuf;
-import io.vavr.Function2;
 import java.util.function.BiConsumer;
 
 public interface AsyncHandler extends BiConsumer<TcpMessage, ByteBuf> {
