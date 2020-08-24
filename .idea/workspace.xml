@@ -371,7 +371,7 @@
       <workItem from="1598015788596" duration="36430000" />
       <workItem from="1598175950093" duration="30573000" />
       <workItem from="1598278178048" duration="869000" />
-      <workItem from="1598283507968" duration="5779000" />
+      <workItem from="1598283507968" duration="6594000" />
     </task>
     <task id="LOCAL-00001" summary="Multiple changes to migrate to netty 4x and reorganize project">
       <created>1596962481419</created>
@@ -534,7 +534,14 @@
       <option name="project" value="LOCAL" />
       <updated>1598301605412</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="WIP - bintray publishing">
+      <created>1598302076737</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1598302076737</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -658,10 +665,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="254" height="198" key="ShowFilterAction_Filter_Popup/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1598026259051" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1598301607437">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1598302079267">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1598301607437" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1598302079267" />
     <state x="552" y="253" key="Vcs.Push.Dialog.v2/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1597001935221" />
     <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1597943978268" />
     <state x="731" y="290" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1596961480535">
