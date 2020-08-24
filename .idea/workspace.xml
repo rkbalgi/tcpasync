@@ -27,12 +27,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="922ce082-9360-402b-8d56-49d05e2cb88b" name="Default" comment="Changes to support building via Travis CI">
-      <change afterPath="$PROJECT_DIR$/bintray.json" afterDir="false" />
+    <list default="true" id="922ce082-9360-402b-8d56-49d05e2cb88b" name="Default" comment="WIP - bintray publishing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.travis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.travis.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ThroughputClientTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ThroughputClientTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bintray.json" beforeDir="false" afterPath="$PROJECT_DIR$/bintray.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,6 +107,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -138,6 +136,11 @@
       <recent name="com.github.rkbalgi.tcpasync.server" />
       <recent name="com.github.rkbalgi.iso8583" />
     </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn install" />
+    </option>
   </component>
   <component name="RunManager" selected="JUnit.TcpClientTest.testAsyncWithHandler">
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
@@ -368,7 +371,7 @@
       <workItem from="1598015788596" duration="36430000" />
       <workItem from="1598175950093" duration="30573000" />
       <workItem from="1598278178048" duration="869000" />
-      <workItem from="1598283507968" duration="2183000" />
+      <workItem from="1598283507968" duration="3568000" />
     </task>
     <task id="LOCAL-00001" summary="Multiple changes to migrate to netty 4x and reorganize project">
       <created>1596962481419</created>
@@ -482,7 +485,14 @@
       <option name="project" value="LOCAL" />
       <updated>1598283889973</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="WIP - bintray publishing">
+      <created>1598286181353</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1598286181353</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -524,7 +534,8 @@
     <MESSAGE value="Initial implementation of ThroughputClient" />
     <MESSAGE value="Minor refactoring" />
     <MESSAGE value="Changes to support building via Travis CI" />
-    <option name="LAST_COMMIT_MESSAGE" value="Changes to support building via Travis CI" />
+    <MESSAGE value="WIP - bintray publishing" />
+    <option name="LAST_COMMIT_MESSAGE" value="WIP - bintray publishing" />
   </component>
   <component name="WindowStateProjectService">
     <state x="352" y="0" key="#Project_Structure" timestamp="1598175913758">
@@ -605,10 +616,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="254" height="198" key="ShowFilterAction_Filter_Popup/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1598026259051" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1598283909395">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1598286183667">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1598283909395" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1598286183667" />
     <state x="552" y="253" key="Vcs.Push.Dialog.v2/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1597001935221" />
     <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1597943978268" />
     <state x="731" y="290" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1596961480535">
@@ -625,6 +636,10 @@
     </state>
     <state x="766" y="364" key="git4idea.ui.GitTagDialog/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1598262418790" />
     <state x="766" y="364" key="git4idea.ui.GitTagDialog/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1596958550096" />
+    <state x="616" y="240" width="672" height="677" key="run.anything.popup" timestamp="1598286092046">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="616" y="240" width="672" height="677" key="run.anything.popup/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1598286092046" />
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1598193359050">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

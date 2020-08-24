@@ -1,13 +1,13 @@
 {
   "package": {
-    "name": "${project.name}",
+    "name": "tcptester",
     "repo": "public",
     "subject": "daalitoy",
     "website_url": "${project.url}",
     "issue_tracker_url": "${project.url}/issues",
     "vcs_url": "${project.url}",
     "licenses": [
-      "Apache 2.0"
+      "Apache-2.0"
     ],
     "labels": [
       "tcptester",
