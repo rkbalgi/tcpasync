@@ -1,4 +1,4 @@
-# tcpasync
+# tcptester
 A Java framework to work with length prefixed (2I/2E etc) TCP messages. 
 
 * Check Test `TcpClientTest.testClient` for sample usage
