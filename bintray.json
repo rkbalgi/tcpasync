@@ -2,7 +2,7 @@
   "package": {
     "name": "tcptester",
     "repo": "public",
-    "subject": "rkbalgi",
+    "userOrg": "daalitoy",
     "website_url": "${project.url}",
     "issue_tracker_url": "${project.url}/issues",
     "vcs_url": "${project.url}",
