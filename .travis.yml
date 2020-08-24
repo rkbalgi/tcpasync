@@ -11,6 +11,6 @@ deploy:
   # Deploy releases to bintray
   provider: bintray
   skip_cleanup: true
-  file: bintray.json
+  file: ./bintray.json
   user: rkbalgi
   key: $BINTRAY_API_KEY

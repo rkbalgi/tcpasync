@@ -18,18 +18,18 @@
     "public_stats": true
   },
   "version": {
-    "name": "${project.version}",
+    "name": "0.1.0",
     "released": "${maven.build.timestamp}",
-    "vcs_tag": "${project.version}"
+    "vcs_tag": "0.1.0"
   },
   "files": [
     {
       "includePattern": "pom.xml",
-      "uploadPattern": "com/github/rkbalgi/tcptester/${project.version}/tcptester-${project.version}.pom"
+      "uploadPattern": "com/github/rkbalgi/tcptester/0.1.0/tcptester-0.1.0.pom"
     },
     {
       "includePattern": "target/(.*\.jar)",
-      "uploadPattern": "com/github/rkbalgi/tcptester/${project.version}/$1"
+      "uploadPattern": "com/github/rkbalgi/tcptester/0.1.0/$1"
     }
   ],
   "publish": true
